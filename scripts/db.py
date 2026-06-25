@@ -1,6 +1,18 @@
 #!/usr/bin/env python3
 """
-Harness Memory Database — SQLite + FTS5.
+  +==============================================================+
+  |  ||  || |||||| |||||| |||||   || ||||||| ||||||| |||||||    |
+  |  ||  || |||  || |||  || |||||  || |||     |||     |||       |
+  |  ||||||| ||||||| |||||| ||| || || |||||   ||||||| |||||||    |
+  |  |||  || |||  || |||  || |||  |||| |||       |||||     |||   |
+  |  |||  || |||  || |||  || |||   ||| ||||||| ||||||| |||||||    |
+  |  |||  || |||  || |||  || |||   ||| ||||||| ||||||| |||||||    |
+  |                                                              |
+  |     created by Kuwabara Mai & Shanon                         |
+  |     LLM Agent Harness -- SQLite + FTS5 Memory Engine          |
+  +==============================================================+
+
+Harness Memory Database -- SQLite + FTS5.
 
 Multi-category table management + utility scoring + strategic forgetting + full-text search.
 All hook scripts read/write memory through this module.
