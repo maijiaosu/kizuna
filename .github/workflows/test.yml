@@ -1,4 +1,4 @@
-name: Harness Tests
+name: Kizuna Tests
 
 on:
   push:
