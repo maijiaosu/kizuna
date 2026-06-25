@@ -34,30 +34,50 @@ python3 scripts/db.py
 3. **Utility decay.** Memories lose weight over time unless accessed.
 4. **Verify before proceed.** Stop hook scans transcript for test/lint signals.
 
-## Tool Permissions
+## Claude Tool Policy
 
-| Tool          | Permitted | Scope                                     |
-|---------------|-----------|-------------------------------------------|
-| Bash          | Yes       | Git, Python, curl, SQLite, pip install    |
-| Write/Edit    | Yes       | Project files only; no system paths       |
-| WebSearch     | Yes       | Research and fact-checking                |
-| WebFetch      | Yes       | GitHub, PyPI, documentation sites         |
-| Bash(rm -rf)  | Blocked   | PreToolUse hook intercepts destructive ops|
-| Bash(git push)| Blocked   | Requires explicit user approval           |
+All Claude Code tools are explicitly declared. The `.claude/settings.json`
+in this repo defines which tools the agent may use and under what conditions.
 
-## Architecture Boundaries
+| Tool          | Policy       | Irreversible-Action Rules                          |
+|---------------|-------------|---------------------------------------------------|
+| Bash          | Allowed     | Git, Python, curl, SQLite, pip install             |
+| Write / Edit  | Allowed     | Project files only; never touch system paths       |
+| WebSearch     | Allowed     | Research and fact-checking                         |
+| WebFetch      | Allowed     | GitHub, PyPI, documentation sites only             |
+| Bash(rm -rf)  | BLOCKED     | PreToolUse hook exit 2 — destructive shell denied  |
+| Bash(git push)| BLOCKED     | Requires explicit user approval via guardrail      |
 
-- **Writable:** `scripts/`, `~/.claude/scripts/`, `~/.claude/memory/`
-- **Read-only:** system directories, other projects
-- **Never touch:** `~/.claude/memory/harness.db` directly (use db.py API)
+## Permission Boundaries & Write Scopes
 
-## MCP / External Tools
+- **Writable directories:** `scripts/`, `~/.claude/scripts/`, `~/.claude/memory/`
+- **Read-only:** system directories, other projects, configuration files
+- **Irreversible actions:** Any Bash command matching destructive patterns is blocked
+  by `pre_tool_use_hook.py` before execution. The blocklist is maintained in
+  `~/.claude/memory/_tool_blocklist.json`.
+- **Sensitive directories:** auth, billing, infra paths are never writable.
 
-None required. All tools are built-in Claude Code tools. No external MCP servers needed.
+## MCP Servers & External Tool Interfaces
 
-## Inspectable State
+**MCP servers:** None required. All tools are built-in Claude Code tools.
+**External tool interfaces:** None. The harness operates entirely within
+Claude Code's native toolset (Bash, Write, Edit, WebSearch, WebFetch).
 
-- SQLite database at `~/.claude/memory/harness.db` — query with `python3 scripts/db.py`
-- Session transcripts in `~/.claude/projects/`
-- Hook logs in `~/.claude/logs/`
-- PreCompact state snapshots in `~/.claude/memory/_compact_state.json`
+## CI Backstop
+
+GitHub Actions workflow at `.github/workflows/test.yml` runs pytest on every push.
+Local equivalent: `python3 -m pytest tests/ -v`.
+
+## Inspectable State & Trace Logs
+
+- **Trace logs:** `~/.claude/logs/` — hook execution logs, constraint extraction logs
+- **Session checkpoints:** `~/.claude/memory/_compact_state.json` — PreCompact snapshots
+- **Session transcripts:** `~/.claude/projects/` — full JSONL transcripts
+- **Memory database:** `~/.claude/memory/harness.db` — SQLite+FTS5, all anti-patterns and
+  effective patterns. Query via `python3 scripts/db.py`.
+
+## Loop Prevention
+
+Stop hook guards against infinite recovery loops: `stop_hook_active` flag
+detected at line 212 of `stop_hook.py`. Secondary approval required on every
+block decision — the hook never loops silently.
