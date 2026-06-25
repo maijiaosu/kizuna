@@ -1,0 +1,8 @@
+name: stop-gate
+version: "1.0.0"
+description: "Stop quality gate — blocks model from ending turn when it modified files without running any verification (tests, lint, typecheck). Inherited from hand-rolled Claude Code harness."
+author: "maijiaosuan"
+hooks:
+  - post_tool_call
+  - pre_llm_call
+  - on_session_end

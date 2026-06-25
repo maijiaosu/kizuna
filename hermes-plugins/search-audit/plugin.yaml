@@ -1,0 +1,6 @@
+name: search-audit
+version: "1.0.0"
+description: "Post-WebSearch quality audit — checks search method appropriateness, source quality, and coverage diversity. Warns when narrow factual questions are searched instead of fetched directly. Inherited from hand-rolled Claude Code harness."
+author: "maijiaosuan"
+hooks:
+  - transform_tool_result

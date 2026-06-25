@@ -1,0 +1,6 @@
+name: download-guard
+version: "1.0.0"
+description: "Post-download file verification — checks downloaded files for completeness (size thresholds, HTML error pages) after terminal download commands. Inherited from hand-rolled Claude Code harness."
+author: "maijiaosuan"
+hooks:
+  - transform_tool_result

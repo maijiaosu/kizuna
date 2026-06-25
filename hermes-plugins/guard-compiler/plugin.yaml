@@ -1,0 +1,6 @@
+name: guard-compiler
+version: "1.0.0"
+description: "Auto-compile guardrails from anti-pattern knowledge and inject them into every turn via pre_llm_call. Reads anti_patterns.json. Inherited from hand-rolled Claude Code harness."
+author: "maijiaosuan"
+hooks:
+  - pre_llm_call

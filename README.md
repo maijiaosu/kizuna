@@ -55,6 +55,29 @@ python3 tests/test_stop_hook.py
 - Claude Code (any version with hooks support)
 - SQLite3 (built-in)
 
+## Hermes Agent
+
+Kizuna's architecture has been ported to [Hermes Agent](https://github.com/NousResearch/hermes-agent)
+as 4 independent plugins. Same design philosophy, different hook protocol.
+
+| Hermes Plugin | Maps To | Hook |
+|---|---|---|
+| `stop-gate` | Quality gate + plan audit | `post_tool_call` / `pre_llm_call` |
+| `search-audit` | Search method + source audit | `transform_tool_result` |
+| `download-guard` | Post-download verification | `transform_tool_result` |
+| `guard-compiler` | Anti-pattern → guardrail injection | `pre_llm_call` |
+
+**Install:**
+```bash
+cp -r hermes-plugins/* ~/.hermes/plugins/
+hermes plugins enable stop-gate search-audit download-guard guard-compiler
+```
+
+**Key difference:** The Hermes port uses `pre_llm_call` context injection instead
+of Claude Code's native `decision: "block"`. Same control logic, softer enforcement
+layer — the model *can* ignore the gate, but it's staring at a full-screen warning
+every turn until it complies.
+
 ## Design Philosophy
 
 > **Hard guarantees, not prompt suggestions.**
