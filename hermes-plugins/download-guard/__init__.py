@@ -229,6 +229,10 @@ def _on_transform_tool_result(
     if not warnings:
         return None
 
+    # Inject audit into JSON structure. Appending after the brace gets swallowed.
+    if isinstance(result_data, dict):
+        result_data["_audit"] = "\n".join(warnings)
+        return json.dumps(result_data, ensure_ascii=False)
     return result + "\n\n---\n" + "\n\n".join(warnings)
 
 

@@ -264,7 +264,14 @@ def _on_transform_tool_result(
     if not blocks:
         return None
 
-    return result + "\n\n---\n" + "\n\n---\n".join(blocks)
+    # Inject audit into JSON structure so Hermes renders it.
+    # Appending text after the closing brace gets swallowed by the JSON parser.
+    audit_text = "\n\n---\n".join(blocks)
+    if isinstance(tool_response, dict):
+        tool_response["_audit"] = audit_text
+        return json.dumps(tool_response, ensure_ascii=False)
+    # Fallback for non-dict JSON (shouldn't happen but be safe)
+    return result + "\n\n---\n" + audit_text
 
 
 def register(ctx) -> None:
