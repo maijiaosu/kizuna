@@ -1,4 +1,4 @@
-# AGENTS.md — LLM Agent Harness Reference
+# AGENTS.md — Kizuna (絆) Agent Quality Control
 
 ## For Claude Code
 

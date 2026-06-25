@@ -1,4 +1,4 @@
-# LLM Agent Harness — Production-Grade Quality Control System
+# Kizuna (絆) — AI Agent Quality Control System
 
 A self-improving harness for Claude Code that enforces quality at every lifecycle point:
 **quality gates, search audit, download verification, and auto-compiled guardrails**.
@@ -20,7 +20,7 @@ A self-improving harness for Claude Code that enforces quality at every lifecycl
 └─────────────────────────────────────────────────────┘
 ```
 
-## What This Harness Does
+## What Kizuna Does
 
 | Component | Hook | What It Prevents |
 |---|---|---|

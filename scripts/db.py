@@ -9,7 +9,7 @@
   |  |||  || |||  || |||  || |||   ||| ||||||| ||||||| |||||||    |
   |                                                              |
   |     created by Kuwabara Mai & Shanon                         |
-  |     LLM Agent Harness -- SQLite + FTS5 Memory Engine          |
+  |     Kizuna (絆) — AI Agent Quality Control System               |
   +==============================================================+
 
 Harness Memory Database -- SQLite + FTS5.

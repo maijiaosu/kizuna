@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ─── LLM Agent Harness — One-Command Install ────────────────────────────
+# ─── Kizuna (絆) — One-Command Install ──────────────────────────────────
 # Copies hook scripts + config template to ~/.claude/
 # Initializes the SQLite memory database with seed data
 
@@ -10,7 +10,7 @@ CLAUDE_DIR="${HOME}/.claude"
 SCRIPTS_DIR="${CLAUDE_DIR}/scripts"
 MEMORY_DIR="${CLAUDE_DIR}/memory"
 
-echo "=== LLM Agent Harness Installer ==="
+echo "=== Kizuna (絆) Installer ==="
 echo ""
 
 # ─── Step 1: Create directories ─────────────────────────────────────────
