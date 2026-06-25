@@ -67,3 +67,10 @@ python3 tests/test_stop_hook.py
 ## License
 
 MIT
+
+---
+
+*"硬保证，不是软提示。" — Kuwabara Mai*
+
+*每一条规则都来自真实的生产事故。*
+*这个仓库不会替你写代码，但会确保你不把同一个坑踩两次。*
