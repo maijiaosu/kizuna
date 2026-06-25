@@ -34,7 +34,30 @@ python3 scripts/db.py
 3. **Utility decay.** Memories lose weight over time unless accessed.
 4. **Verify before proceed.** Stop hook scans transcript for test/lint signals.
 
-## Setup
+## Tool Permissions
 
-Copy `.claude/settings.template.json` to `~/.claude/settings.local.json`,
-set your API key, and copy `scripts/` to `~/.claude/scripts/`.
+| Tool          | Permitted | Scope                                     |
+|---------------|-----------|-------------------------------------------|
+| Bash          | Yes       | Git, Python, curl, SQLite, pip install    |
+| Write/Edit    | Yes       | Project files only; no system paths       |
+| WebSearch     | Yes       | Research and fact-checking                |
+| WebFetch      | Yes       | GitHub, PyPI, documentation sites         |
+| Bash(rm -rf)  | Blocked   | PreToolUse hook intercepts destructive ops|
+| Bash(git push)| Blocked   | Requires explicit user approval           |
+
+## Architecture Boundaries
+
+- **Writable:** `scripts/`, `~/.claude/scripts/`, `~/.claude/memory/`
+- **Read-only:** system directories, other projects
+- **Never touch:** `~/.claude/memory/harness.db` directly (use db.py API)
+
+## MCP / External Tools
+
+None required. All tools are built-in Claude Code tools. No external MCP servers needed.
+
+## Inspectable State
+
+- SQLite database at `~/.claude/memory/harness.db` — query with `python3 scripts/db.py`
+- Session transcripts in `~/.claude/projects/`
+- Hook logs in `~/.claude/logs/`
+- PreCompact state snapshots in `~/.claude/memory/_compact_state.json`
